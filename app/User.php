@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'admin', 'password',
     ];
 
     /**
@@ -26,4 +26,25 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * Get the groups records associated with the user.
+     */
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class);
+    }
+
+
+    /**
+     * Created api_token
+     */
+    public function createToken(){
+
+        $this->api_token = str_random(80);
+        $this->save();
+
+        return $this->api_token;
+    }
 }

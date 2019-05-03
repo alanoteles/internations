@@ -1,0 +1,59 @@
+# v2 syntax
+version: '2'
+
+# Named volumes
+volumes:
+  # MySQL Data
+  internations-mysql-data:
+    driver: local
+
+services:
+  # MySQL (5.7)
+  db:
+    image: mysql:5.7
+    volumes:
+      - internations-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=internations
+      - MYSQL_DATABASE=internations
+      - MYSQL_USER=internations
+      - MYSQL_PASSWORD=internations
+    networks:
+      - mynet
+
+
+  phpfpm:
+    links:
+      - db:db
+    image: alanoteles/laravel-phpfpm:7.1
+    volumes:
+      - ./containers/storage/data:/data
+      - .:/var/www/app
+    networks:
+      - mynet
+
+  nginx:
+    environment:
+      LARAVEL_SERVER_NAME: localhost
+
+    image: nginx:stable
+    links:
+      - phpfpm:fpm
+      - db
+
+    mem_limit: 134217728b
+    ports:
+      - "80:80"
+      - "5443:5443"
+    volumes:
+      - .:/var/www/app
+      - ./containers/nginx/laravel-nginx:/etc/nginx/conf.d/default.conf
+      - ./containers/storage/data:/data
+    networks:
+      - mynet
+
+networks:
+  mynet:
+    driver: bridge

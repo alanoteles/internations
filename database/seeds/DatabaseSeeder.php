@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        // Runs Groups seeder before users, so we have Group ID to the pivot table on Users seed.
+        $this->call(GroupsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+
     }
 }
