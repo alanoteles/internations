@@ -30,8 +30,8 @@ class LoginTest extends TestCase
     {
 
         $user = factory(User::class)->create();
-        echo '<pre>';
-        print_r($user);die;
+//        echo '<pre>';
+//        print_r($user);die;
         $payload = ['email' => 'admin@email.com', 'password' => 'admin'];
 
         $this->json('POST', 'api/login', $payload)
