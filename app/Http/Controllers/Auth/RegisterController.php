@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
@@ -40,20 +40,34 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+
+
+
     /**
-     * Get a validator for an incoming registration request.
+     * Handle a registration request for the application.
      *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    protected function validator(array $data)
+    public function register(Request $request)
     {
-        return Validator::make($data, [
-            'name'      => 'required|string|max:255',
-            'email'     => 'required|string|email|max:255|unique:users',
-            'password'  => 'required|string|min:6|confirmed',
-        ]);
+        $cleanedNew = $this->sanitizerInput($request->all());
+        $rules      = $this->getRules('user');
+
+        $validator  = $this->validatorInput($cleanedNew, $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        event(new Registered($user = $this->create($cleanedNew)));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -63,10 +77,11 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+
         return User::create([
             'name'      => $data['name'],
             'email'     => $data['email'],
-            'admin'     => $data['admin'],
+            'admin'     => !empty($data['admin']) ? $data['admin'] : false,
             'password'  => bcrypt($data['password']),
         ]);
     }

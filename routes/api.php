@@ -13,13 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
-Route::post('register', 'Auth\RegisterController@register');
-
+//Route::group(['middleware' => ['admin_only']], function() {
+    Route::post('register', 'Auth\RegisterController@register');
+//});
 
 Route::group(['middleware' => ['auth:api', 'admin_only']], function() {
 

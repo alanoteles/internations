@@ -19,7 +19,7 @@ class AdminOnly
         $user = Auth::user();
 
         if(!$user->admin){
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+            return response()->json(['message' => 'Access restricted to Admin users.'], 401);
         }
         return $next($request);
     }

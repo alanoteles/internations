@@ -125,6 +125,28 @@ return [
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Model Validation Rules Configuration
+    |--------------------------------------------------------------------------
+    |
+    | Used for API related controllers when validating POST, PUT and PATCH request.
+    |
+    */
+
+    'validation_rules' => [
+
+        'user'                     => [
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|string|email|max:255|unique:users',
+            'password'  => 'required|string|min:6|confirmed',
+        ],
+        'group'                     => [
+            'name'      => 'required|string|max:255',
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

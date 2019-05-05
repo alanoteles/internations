@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Group;
+use Illuminate\Http\Request;
+
 
 class GroupController extends Controller
 {
@@ -13,6 +14,19 @@ class GroupController extends Controller
     }
 
 
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+//    protected function validator(array $data)
+//    {
+//        return Validator::make($data, [
+//            'name'      => 'required|string|max:255'
+//        ]);
+//    }
+
     public function show($group){
 
         return $group;
@@ -21,9 +35,17 @@ class GroupController extends Controller
 
     public function store(Request $request){
 
-        $group = Group::create($request->all());
+        $cleanedNew = $this->sanitizerInput($request->all());
+        $rules      = $this->getRules('group');
 
-        return response()->json($group, 201);
+        $validator  = $this->validatorInput($cleanedNew, $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        return response()->json(Group::create($cleanedNew), 201);
+
     }
 
 
