@@ -12,7 +12,7 @@ class Group extends Model
 
 
     /**
-     * Get the users records associated with the group.
+     * Get users records associated with the group.
      */
     public function users()
     {

@@ -10,6 +10,12 @@ use Illuminate\Http\Request;
 
 class GroupController extends Controller
 {
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(){
 
         return Group::paginate($this->page_items);
@@ -17,12 +23,26 @@ class GroupController extends Controller
 
 
 
-    public function show($group){
 
-        return $group;
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Group $group){
+
+        return response()->json($group, 200);
     }
 
 
+
+    /**
+     * Creates user.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request){
 
         $cleanedNew = $this->sanitizerInput($request->all());
@@ -39,17 +59,74 @@ class GroupController extends Controller
     }
 
 
-    public function update(Request $request, $group){
 
-        $group->update($request->all());
+    /**
+     * Updates user.
+     *
+     * @param  Request $request
+     * @param  Group $group
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Group $group){
+
+
+        $cleanedUpdate  = $this->sanitizerInput($request->all());
+        $rules          = $this->getRules('group');
+
+        $validator      = $this->validatorInput($cleanedUpdate, $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+
+
+
+        try{
+            $group->update($request->all());
+
+        }catch (\Exception $e) {
+
+            if($e instanceof \PDOException ){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
+
 
         return response()->json($group, 200);
     }
 
 
+    /**
+     * Deletes user.
+     *
+     * @param  Group $group
+     * @return \Illuminate\Http\Response
+     * @throws \Exception
+     */
     public function destroy(Group $group){
 
-        $group->delete();
+        if($group->users->count()){
+            return response()->json([
+                'error' => 'Group is not empty'
+            ], 400);
+        }
+        
+
+
+        try{
+            $group->delete();
+
+        }catch (\Exception $e) {
+
+            if($e instanceof \PDOException ){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
 
         return response()->json(null, 204);
     }

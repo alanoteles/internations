@@ -15,8 +15,11 @@ use Illuminate\Http\Request;
 
 Route::group(['middleware' => ['auth:api', 'admin_only']], function() {
 
+    // Only Admin has permission to manage Users
+    Route::resource('users', 'UserController');
+
     // Only Admin has permission to create new users
-    Route::post('register', 'Auth\RegisterController@register');
+    Route::post('users', 'Auth\RegisterController@register');
 
     // Only Admin has permission to manage Groups
     Route::resource('groups', 'GroupController');
@@ -24,8 +27,7 @@ Route::group(['middleware' => ['auth:api', 'admin_only']], function() {
     Route::post('groups/{group}/user/{id}/remove', 'GroupController@removeUser');
 
 
-    // Only Admin has permission to manage Users
-    Route::resource('users', 'UserController');
+
 
 
 });
