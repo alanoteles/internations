@@ -13,25 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::group(['middleware' => ['admin_only']], function() {
-
-//});
-
 Route::group(['middleware' => ['auth:api', 'admin_only']], function() {
 
     // Only Admin has permission to create new users
     Route::post('register', 'Auth\RegisterController@register');
 
     // Only Admin has permission to manage Groups
-//    Route::get('groups', 'GroupController@index');
-//    Route::get('groups/{group}', 'GroupController@show');
-//    Route::post('groups', 'GroupController@store');
-//    Route::put('groups/{group}', 'GroupController@update');
-//    Route::delete('groups/{group}', 'GroupController@delete');
-
-//    Route::delete('users/{id}', 'UserController@destroy');
-    Route::resource('users', 'UserController');
     Route::resource('groups', 'GroupController');
+    Route::post('groups/{group}/user/{id}', 'GroupController@addUser');
+    //Route::get('users/switch-organisation/{organisationId}',   'UserController@switchOrganisation');
+
+
+    // Only Admin has permission to manage Users
+    Route::resource('users', 'UserController');
+
 
 });
 
