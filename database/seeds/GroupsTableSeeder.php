@@ -15,8 +15,8 @@ class GroupsTableSeeder extends Seeder
 
         Group::truncate();
 
-        // Creates 3 test groups. Not using faker Factory.
-        for ($i = 1; $i < 4; $i++) {
+        // Creates 50 test groups. Not using faker Factory.
+        for ($i = 1; $i <= 50; $i++) {
             Group::create([
                 'name' => 'Group ' . $i,
             ]);

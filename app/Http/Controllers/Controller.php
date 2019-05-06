@@ -12,6 +12,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $page_items;
+
+
+    public function __construct()
+    {
+        $this->page_items = 15;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *

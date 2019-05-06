@@ -37,5 +37,8 @@ class UsersTableSeeder extends Seeder
 
         // Associate Normal User to first group. Other groups has no users, yet.
         $group->users()->attach($user);
+
+        // Creating more users to test pagination.
+        $users = factory(App\User::class, 50)->create();
     }
 }

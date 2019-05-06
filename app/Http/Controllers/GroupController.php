@@ -12,7 +12,7 @@ class GroupController extends Controller
 {
     public function index(){
 
-        return Group::all();
+        return Group::paginate($this->page_items);
     }
 
 
@@ -47,7 +47,7 @@ class GroupController extends Controller
     }
 
 
-    public function delete($group){
+    public function destroy(Group $group){
 
         $group->delete();
 
@@ -66,21 +66,11 @@ class GroupController extends Controller
      */
     public function addUser($groupId, $userId){
 
-        $group = Group::find($groupId);
-
-        if(empty($group)){
-            return response()->json([
-                'error' => 'Group not found'
-            ], 404);
-        }
-
-
-
         $user = User::find($userId);
 
-        if(empty($user)){
+        if(empty(Group::find($groupId)) || empty($user)){
             return response()->json([
-                'error' => 'User not found'
+                'error' => 'Group/User not found'
             ], 404);
         }
 
@@ -95,6 +85,45 @@ class GroupController extends Controller
 
         try{
             $user->groups()->attach($groupId);
+
+        }catch (\Exception $e) {
+
+            if($e instanceof \PDOException ){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
+
+
+        return response()->json(null, 204);
+
+    }
+
+
+
+
+    /**
+     * Remove user from group.
+     *
+     * @param  int  $groupId
+     * @param  int  $userId
+     * @return \Illuminate\Http\Response
+     */
+    public function removeUser($groupId, $userId){
+
+
+        $user = User::find($userId);
+
+        if(empty(Group::find($groupId)) || empty($user)){
+            return response()->json([
+                'error' => 'Group/User not found'
+            ], 404);
+        }
+
+
+        try{
+            $user->groups()->detach($groupId);
 
         }catch (\Exception $e) {
 

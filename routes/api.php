@@ -20,8 +20,8 @@ Route::group(['middleware' => ['auth:api', 'admin_only']], function() {
 
     // Only Admin has permission to manage Groups
     Route::resource('groups', 'GroupController');
-    Route::post('groups/{group}/user/{id}', 'GroupController@addUser');
-    //Route::get('users/switch-organisation/{organisationId}',   'UserController@switchOrganisation');
+    Route::post('groups/{group}/user/{id}/add', 'GroupController@addUser');
+    Route::post('groups/{group}/user/{id}/remove', 'GroupController@removeUser');
 
 
     // Only Admin has permission to manage Users

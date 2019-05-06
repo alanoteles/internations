@@ -2,6 +2,7 @@
 
 namespace App;
 
+use http\Env\Response;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -47,4 +48,6 @@ class User extends Authenticatable
 
         return $this->api_token;
     }
+
+
 }

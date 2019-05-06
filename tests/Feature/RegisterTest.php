@@ -13,7 +13,7 @@ class RegisterTest extends TestCase
     use WithFaker;
 
     /** @test */
-    public function user_registered_successfuly()
+    public function user_registered_successfully()
     {
         $payload = [
             'name'                  => $this->faker->firstName(),
