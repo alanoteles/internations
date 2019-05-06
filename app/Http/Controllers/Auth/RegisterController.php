@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 
+
 class RegisterController extends Controller
 {
     /*
@@ -23,24 +24,6 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
-
-
 
 
     /**
@@ -51,6 +34,7 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+
         $cleanedNew = $this->sanitizerInput($request->all());
         $rules      = $this->getRules('user');
 
@@ -61,8 +45,6 @@ class RegisterController extends Controller
         }
 
         event(new Registered($user = $this->create($cleanedNew)));
-
-        $this->guard()->login($user);
 
         return $this->registered($request, $user)
             ?: redirect($this->redirectPath());
