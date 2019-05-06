@@ -80,8 +80,6 @@ class GroupController extends Controller
         }
 
 
-
-
         try{
             $group->update($request->all());
 

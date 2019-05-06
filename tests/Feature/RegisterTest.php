@@ -15,6 +15,11 @@ class RegisterTest extends TestCase
     /** @test */
     public function user_registered_successfully()
     {
+
+        $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
+        $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
+        $headers    = ['Authorization' => "Bearer " . $user->api_token];
+
         $payload = [
             'name'                  => $this->faker->firstName(),
             'email'                 => $this->faker->unique()->safeEmail(),
@@ -23,8 +28,8 @@ class RegisterTest extends TestCase
         ];
         $payload['password_confirmation'] = $payload['password'];
 
-        $this->json('post', '/api/register', $payload)
-              ->assertJsonStructure([
+        $this->json('post', '/api/users', $payload, $headers)
+                    ->assertJsonStructure([
                 'data' => [
                     'name',
                     'email',
@@ -41,7 +46,11 @@ class RegisterTest extends TestCase
     /** @test */
     public function name_email_and_password_required()
     {
-        $this->json('post', '/api/register')
+        $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
+        $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
+        $headers    = ['Authorization' => "Bearer " . $user->api_token];
+
+        $this->json('post', '/api/users', [], $headers)
             ->assertStatus(422)
             ->assertJson(
 
@@ -51,21 +60,16 @@ class RegisterTest extends TestCase
                         'password'  => ['The password field is required.'],
                     ]
             );
-//            ->assertJson([
-//            'message' => 'The given data was invalid.',
-//            'errors' =>
-//                [
-//                    'name'      => ['The name field is required.'],
-//                    'email'     => ['The email field is required.'],
-//                    'password'  => ['The password field is required.'],
-//                ]
-//            ]);
     }
 
 
     /** @test */
     public function password_confirmation_required()
     {
+        $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
+        $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
+        $headers    = ['Authorization' => "Bearer " . $user->api_token];
+
         $payload = [
             'name'      => $this->faker->firstName(),
             'email'     => $this->faker->unique()->safeEmail(),
@@ -73,7 +77,7 @@ class RegisterTest extends TestCase
             'password'  => bcrypt('secret')
         ];
 
-        $this->json('post', '/api/register', $payload)
+        $this->json('post', '/api/users', $payload, $headers)
             ->assertStatus(422)
             ->assertJson(
                     [

@@ -2,7 +2,6 @@
 
 namespace App;
 
-use http\Env\Response;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -39,7 +38,7 @@ class User extends Authenticatable
 
 
     /**
-     * Created api_token
+     * Creates api_token
      */
     public function createToken(){
 

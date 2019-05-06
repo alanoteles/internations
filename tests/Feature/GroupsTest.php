@@ -33,68 +33,44 @@ class GroupsTest extends TestCase
                 ]);
     }
 
-    public function testsArticlesAreUpdatedCorrectly()
+
+    /** @test  */
+    public function group_updated_successfully()
     {
-        $user = factory(User::class)->create();
-        $token = $user->generateToken();
-        $headers = ['Authorization' => "Bearer $token"];
-        $article = factory(Article::class)->create([
-            'title' => 'First Article',
-            'body' => 'First Body',
+        $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
+        $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
+        $headers    = ['Authorization' => "Bearer " . $user->api_token];
+
+        $group = factory(Group::class)->create([
+            'name' => 'Testing Group'
         ]);
+        $payload    = ['name' => $this->faker->name];
 
-        $payload = [
-            'title' => 'Lorem',
-            'body' => 'Ipsum',
-        ];
+        $this->json('PUT', '/api/groups/' . $group->id, $payload, $headers)
+                ->assertStatus(200)
+                ->assertJsonStructure([
+                        'id',
+                        'name',
+                        'updated_at',
+                        'created_at',
 
-        $response = $this->json('PUT', '/api/articles/' . $article->id, $payload, $headers)
-            ->assertStatus(200)
-            ->assertJson([
-                'id' => 1,
-                'title' => 'Lorem',
-                'body' => 'Ipsum'
-            ]);
+                ]);
     }
 
-    public function testsArtilcesAreDeletedCorrectly()
+    /** @test  */
+    public function group_deleted_successfully()
     {
-        $user = factory(User::class)->create();
-        $token = $user->generateToken();
-        $headers = ['Authorization' => "Bearer $token"];
-        $article = factory(Article::class)->create([
-            'title' => 'First Article',
-            'body' => 'First Body',
+        $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
+        $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
+        $headers    = ['Authorization' => "Bearer " . $user->api_token];
+
+        $group = factory(Group::class)->create([
+            'name' => 'Testing Group'
         ]);
 
-        $this->json('DELETE', '/api/articles/' . $article->id, [], $headers)
+        $this->json('DELETE', '/api/groups/' . $group->id, [], $headers)
             ->assertStatus(204);
     }
 
-    public function testArticlesAreListedCorrectly()
-    {
-        factory(Article::class)->create([
-            'title' => 'First Article',
-            'body' => 'First Body'
-        ]);
 
-        factory(Article::class)->create([
-            'title' => 'Second Article',
-            'body' => 'Second Body'
-        ]);
-
-        $user = factory(User::class)->create();
-        $token = $user->generateToken();
-        $headers = ['Authorization' => "Bearer $token"];
-
-        $response = $this->json('GET', '/api/articles', [], $headers)
-            ->assertStatus(200)
-            ->assertJson([
-                [ 'title' => 'First Article', 'body' => 'First Body' ],
-                [ 'title' => 'Second Article', 'body' => 'Second Body' ]
-            ])
-            ->assertJsonStructure([
-                '*' => ['id', 'body', 'title', 'created_at', 'updated_at'],
-            ]);
-    }
 }

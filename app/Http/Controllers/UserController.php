@@ -32,16 +32,9 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+
+
+
 
     /**
      * Display the specified resource.
@@ -49,21 +42,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user)
+    public function show(User $user)
     {
-        return $user;
+        return response()->json($user, 200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -72,20 +58,59 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+        $cleanedUpdate  = $this->sanitizerInput($request->all());
+        $rules          = $this->getRules('user');
+
+        $validator      = $this->validatorInput($cleanedUpdate, $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+
+
+
+        try{
+            $user->update($request->all());
+
+        }catch (\Exception $e) {
+
+            if($e instanceof \PDOException ){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
+
+
+        return response()->json($user, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  User $user
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
-        $user->delete();
+
+
+        try{
+            $user->delete();
+
+        }catch (\Exception $e) {
+
+            if($e instanceof \PDOException ){
+                return response()->json([
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        }
+
 
         return response()->json(null, 204);
     }
