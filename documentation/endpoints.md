@@ -110,7 +110,7 @@
   
   
   
-  **Create User** ###<a href="#top">Back to top</a>###
+  **Create User** 
   ----
     Creates a user.
   
