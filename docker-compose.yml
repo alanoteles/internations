@@ -11,6 +11,7 @@ services:
   # MySQL (5.7)
   db:
     image: mysql:5.7
+    container_name: mysql-internations
     volumes:
       - internations-mysql-data:/var/lib/mysql
     ports:
@@ -28,6 +29,7 @@ services:
     links:
       - db:db
     image: alanoteles/laravel-phpfpm:7.1
+    container_name: phpfpm-internations
     volumes:
       - ./containers/storage/data:/data
       - .:/var/www/app
@@ -39,6 +41,7 @@ services:
       LARAVEL_SERVER_NAME: localhost
 
     image: nginx:stable
+    container_name: nginx-internations
     links:
       - phpfpm:fpm
       - db
