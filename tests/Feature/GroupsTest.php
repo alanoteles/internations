@@ -15,7 +15,6 @@ class GroupsTest extends TestCase
     /** @test */
     public function group_created_successfully()
     {
-        //$group = factory(Group::class)->create();
 
         $payload    = ['email' => 'admin@email.com', 'password' => 'admin'];
         $user       = $this->json('POST', 'api/login', $payload)->getData()->data;
