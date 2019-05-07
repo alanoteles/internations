@@ -88,7 +88,7 @@
   
   
   
-  Create User
+  **Create User**
   ----
     Creates a user.
   
