@@ -1,6 +1,6 @@
  **Create User** 
   ----
-   [Back](endpoints.md)
+   [Back to Summary](endpoints.md#users-endpoints)
    
     Creates a user.
   
