@@ -1,7 +1,7 @@
 **Users endpoints** :\
 [List users](#list-users) : GET `/api/users`\
 
-[Create user](#create_user.md)  : POST `/api/users`\
+[Create user](create_user.md)  : POST `/api/users`\
 [Read user](#read-user)  : GET `/api/users/{id}`\
 [Update user](#update-user)  : PUT `/api/users/{id}`\
 [Delete user](#create-user)  : DELETE `/api/users/{id}`\

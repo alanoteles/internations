@@ -1,5 +1,7 @@
- ##Create User##  ######Voltar######
+ **Create User** 
   ----
+   [Back](endpoints.md)
+   
     Creates a user.
   
   * **URL**
