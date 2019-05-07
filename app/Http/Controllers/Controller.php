@@ -36,7 +36,6 @@ class Controller extends BaseController
     /**
      * Validate the incoming request.
      *
-     * @param  	array  	$data
      * @param	array	$data
      * @return 	\Illuminate\Contracts\Validation\Validator
      */

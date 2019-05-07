@@ -61,8 +61,7 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $cleanedUpdate  = $this->sanitizerInput($request->all());
-        $rules          = $this->getRules('user');
-
+        $rules          = $this->getRules('user-update');
         $validator      = $this->validatorInput($cleanedUpdate, $rules);
 
         if ($validator->fails()) {
