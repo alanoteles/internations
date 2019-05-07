@@ -1,4 +1,4 @@
- **Create User** 
+ **Update User** 
   ----
    [Back to Summary](endpoints.md#users-endpoints)
    
@@ -6,17 +6,17 @@
   
   * **URL**
   
-    /users
+    /users/{id}
   
   * **Method:**
   
-    `POST`
+    `PUT`
     
   *  **URL Params**
   
      **Required:**
    
-     None 
+     ID  
   
   * **Data Params**
   
@@ -34,23 +34,31 @@
     * **Code:** 200 <br />
       **Content:** 
       ```json
-      {
-          "data": {
-              "name": "Test Put",
-              "email": "erisssc44221@example.org",
-              "admin": false,
-              "updated_at": "2019-05-07 22:50:41",
-              "created_at": "2019-05-07 22:50:41",
-              "id": 56,
-              "api_token": "tKRYCW4qXoZoAWgM6yO4vlJBuAE3t84UuUTQp5CiupdV2UMaMzZuXeARKooT2MOKLRh5LCc5QVPaQBtn"
-          }
+      { 
+          "id": 45,
+          "name": "Eladio Fay",
+          "email": "eladio.fay@example.org",
+          "admin": 0,
+          "api_token": null,
+          "created_at": "2019-05-06 21:13:44",
+          "updated_at": "2019-05-07 14:10:51"
       }
       ```
    
   * **Error Responses:**
   
+    * **Code:** 404 NOT FOUND <br />
+      **Content:** `{ "error": "Resource not found" }`
+  
+    OR
+  
     * **Code:** 401 UNAUTHORIZED <br />
       **Content:** `{ "error": "Unauthenticated" }`
+      
+    OR
+        
+    * **Code:** 400 Bad Request <br />
+      **Content:** `{ "error": "Method not Allowed" }`
       
     OR
     
@@ -61,9 +69,6 @@
           "name": [
               "The name field is required."
           ],
-          "email": [
-              "The email field is required."
-                    ],
           "password": [
               "The password field is required."
                     ]
@@ -100,17 +105,13 @@
         ];
     
         $data = [
-                'name' 	            => 'John Doe',
-                'email' 	            => 'john@email.com',
-                'password' 	            => '123456',
-                'password_confirmation' => '123456',
-            ];
+    
+        ]
     
         // Access API
         curl_setopt($c, CURLOPT_URL, 'http://<SERVER ADDRESS>/api/users/5');
         curl_setopt($c, CURLOPT_POST, 1);
-        curl_setopt($c, CURLOPT_POSTFIELDS, $headers );
-        curl_setopt($c, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($c, CURLOPT_POSTFIELDS, $headers, );
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
             
         $result = curl_exec ($c);
