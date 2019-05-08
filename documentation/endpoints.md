@@ -16,8 +16,8 @@
 [Read group](read_group.md#read-group)  : GET `/api/groups/{id}`\
 [Update group](update_group.md#update-group)  : PUT `/api/groups/{id}`\
 [Delete group](delete_group.md#create-group)  : DELETE `/api/groups/{id}`\
-[Add user to group](add_user_group.md#add-user-to-group)  : POST `/api/groups/{id}/users/{id}/add`\
-[Remove user from group](remove_user_group.md#remove-user-from-group)  : POST `/api/groups/{id}/users/{id}/remove`  
+[Add user to group](add_user_group.md#add-user-to-group)  : POST `/api/groups/{id}/users/{id}`\
+[Remove user from group](remove_user_group.md#remove-user-from-group)  : DELETE `/api/groups/{id}/users/{id}`  
  
     
     
