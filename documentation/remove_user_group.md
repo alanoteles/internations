@@ -10,7 +10,7 @@
   
   * **Method:**
   
-    `POST`
+    `DELETE`
     
   *  **URL Params**
   
