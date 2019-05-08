@@ -1,12 +1,12 @@
- **Create User** 
+ **Create Group** 
   ----
-   [Back to Summary](endpoints.md#users-endpoints)
+   [Back to Summary](endpoints.md#groups-endpoints)
    
-    Create a user.
+    Create a group.
   
   * **URL**
   
-    /api/users
+    /api/groups
   
   * **Method:**
   
@@ -22,10 +22,7 @@
   
     ```json
       { 
-          "name": "Eladio Fay",
-          "email": "eladio.fay@example.org",
-          "admin": 0,
-          "password": "123456"
+          "name": "Group 999"
       }
       ```
   
@@ -36,13 +33,10 @@
       ```json
       {
           "data": {
-              "name": "Test Put",
-              "email": "erisssc44221@example.org",
-              "admin": false,
-              "updated_at": "2019-05-07 22:50:41",
-              "created_at": "2019-05-07 22:50:41",
               "id": 56,
-              "api_token": "tKRYCW4qXoZoAWgM6yO4vlJBuAE3t84UuUTQp5CiupdV2UMaMzZuXeARKooT2MOKLRh5LCc5QVPaQBtn"
+              "name": "Group 999",
+              "updated_at": "2019-05-07 22:50:41",
+              "created_at": "2019-05-07 22:50:41"
           }
       }
       ```
@@ -103,14 +97,11 @@
         ];
     
         $data = [
-                'name' 	            => 'John Doe',
-                'email' 	            => 'john@email.com',
-                'password' 	            => '123456',
-                'password_confirmation' => '123456',
-            ];
+                    'name' => 'Group 999'
+                ];
     
         // Access API
-        curl_setopt($c, CURLOPT_URL, $url . '/users');
+        curl_setopt($c, CURLOPT_URL, $url . '/groups');
         curl_setopt($c, CURLOPT_POST, 1);
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers );
         curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
