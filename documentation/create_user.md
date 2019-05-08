@@ -6,7 +6,7 @@
   
   * **URL**
   
-    /users
+    /api/users
   
   * **Method:**
   
