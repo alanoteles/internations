@@ -16,7 +16,7 @@
 [Update group](#update-group)  : PUT `/api/groups/{id}`\
 [Delete group](#create-group)  : DELETE `/api/groups/{id}`\
 [Add user to group](#add-user-to-group)  : POST `/api/groups/{id}/users/{id}/add`\
-[Remove user from group](#remove-user-from-group)  : POST `/api/groups/{id}/users/{id}/remove`\  
+[Remove user from group](#remove-user-from-group)  : POST `/api/groups/{id}/users/{id}/remove`  
  
     
     
