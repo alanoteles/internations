@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Group;
 use App\User;
+use Illuminate\Support\Facades\Schema;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,6 +15,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
+        Schema::disableForeignKeyConstraints();
         User::truncate();
 
         // Creates an Admin user
@@ -40,5 +42,7 @@ class UsersTableSeeder extends Seeder
 
         // Creating more users to test pagination.
         $users = factory(App\User::class, 50)->create();
+
+        Schema::enableForeignKeyConstraints();
     }
 }

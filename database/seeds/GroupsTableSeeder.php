@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Group;
+use Illuminate\Support\Facades\Schema;
 
 class GroupsTableSeeder extends Seeder
 {
@@ -13,6 +14,7 @@ class GroupsTableSeeder extends Seeder
     public function run()
     {
 
+        Schema::disableForeignKeyConstraints();
         Group::truncate();
 
         // Creates 50 test groups. Not using faker Factory.
@@ -21,6 +23,8 @@ class GroupsTableSeeder extends Seeder
                 'name' => 'Group ' . $i,
             ]);
         }
+
+        Schema::enableForeignKeyConstraints();
 
     }
 }

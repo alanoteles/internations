@@ -6,7 +6,7 @@
   
   * **URL**
   
-    /api/groups/{id}/users/{id}/remove
+    /api/groups/{id}/users/{id}
   
   * **Method:**
   
@@ -81,8 +81,8 @@
                 ];
     
         // Access API
-        curl_setopt($c, CURLOPT_URL, $url . '/groups/12/users/3/remove');
-        curl_setopt($c, CURLOPT_POST, 1);
+        curl_setopt($c, CURLOPT_URL, $url . '/groups/12/users/3');
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, "DELETE");
         curl_setopt($c, CURLOPT_HTTPHEADER, $headers );
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
             
