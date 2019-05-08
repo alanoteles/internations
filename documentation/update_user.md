@@ -16,7 +16,7 @@
   
      **Required:**
    
-     ID  
+     `ID = [integer]` 
   
   * **Data Params**
   
@@ -90,10 +90,11 @@
             'password' 	=> 'admin'
         );
     
-        $c = curl_init();
+        $url = 'http://<SERVER ADDRESS>/api';
+        $c   = curl_init();
     
         // Authenticate and get token
-        curl_setopt($c, CURLOPT_URL, 'http://<SERVER ADDRESS>/api/login');
+        curl_setopt($c, CURLOPT_URL, $url . '/login');
         curl_setopt($c, CURLOPT_POST, 1);
         curl_setopt($c, CURLOPT_POSTFIELDS, $auth_data);
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -101,17 +102,24 @@
         $token  = json_decode($result)->data->api_token;
     
         $headers = [
+            'Cache-control: no-cache',
+            'Content-Type : application/json',
             'Authorization: Bearer '. $token
         ];
     
-        $data = [
+         $data = [
+                'name' 	                => 'John Doe',
+                'email' 	            => 'john@email.com',
+                'password' 	            => '123456',
+                'password_confirmation' => '123456',
+        ];
     
-        ]
-    
+        
         // Access API
-        curl_setopt($c, CURLOPT_URL, 'http://<SERVER ADDRESS>/api/users/5');
-        curl_setopt($c, CURLOPT_POST, 1);
-        curl_setopt($c, CURLOPT_POSTFIELDS, $headers, );
+        curl_setopt($c, CURLOPT_URL, $url . '/users/5');
+        curl_setopt($c, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($data));
         curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
             
         $result = curl_exec ($c);
