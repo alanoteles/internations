@@ -58,10 +58,11 @@
           'password' 	=> 'admin'
       );
   
+      $url = 'http://<SERVER ADDRESS>/api';
       $c = curl_init();
   
       // Authenticate and get token
-      curl_setopt($c, CURLOPT_URL, 'http://<SERVER ADDRESS>/api/login');
+      curl_setopt($c, CURLOPT_URL, $url . '/login');
       curl_setopt($c, CURLOPT_POST, 1);
       curl_setopt($c, CURLOPT_POSTFIELDS, $auth_data);
       curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
@@ -69,12 +70,13 @@
       $token  = json_decode($result)->data->api_token;
   
       $headers = [
-          'Content-Type: application/json',
+          'Cache-control: no-cache',
+          'Content-Type : application/json',
           'Authorization: Bearer '. $token
       ];
   
       // Access API
-      curl_setopt($c, CURLOPT_URL, 'http://<SERVER ADDRESS>/api/users/5');
+      curl_setopt($c, CURLOPT_URL, $url . '/users/5');
       curl_setopt($c, CURLOPT_POST, 0);
       curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
       curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
