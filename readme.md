@@ -8,6 +8,10 @@ After cloning, supposing Docker and docker-compose are installed, you can :
 4 - Run containers : ```docker-compose up -d```\
 5 - Run migrations/seeds : ```docker exec -it phpfpm-internations php artisan migrate --seed```
 
-The available endpoints are described on this [document](endpoints.pdf).
+The available endpoints are described on this [document](api/endpoints.md).
+
+The database diagram can be viewed  [here](database_model.png).
+
+The domain model can be viewed [here](api/domain_model.png).
 
 
