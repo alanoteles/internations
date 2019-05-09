@@ -8,6 +8,8 @@ use Illuminate\Auth\AuthenticationException;
 use Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -65,6 +67,12 @@ class Handler extends ExceptionHandler
         if ($exception instanceof MethodNotAllowedHttpException) {
             return response()->json([
                 'error' => 'Method not Allowed'
+            ], 400);
+        }
+
+        if ($exception instanceof BadRequestHttpException) {
+            return response()->json([
+                'error' => $exception->getMessage()
             ], 400);
         }
 
