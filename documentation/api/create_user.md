@@ -25,7 +25,8 @@
           "name": "Eladio Fay",
           "email": "eladio.fay@example.org",
           "admin": 0,
-          "password": "123456"
+          "password": "123456",
+          "password_confirmation": "123456"
       }
       ```
   
