@@ -1,4 +1,4 @@
-## Internations API Test
+## Internations API
 
 After cloning, supposing Docker and docker-compose are installed, you can :
 
